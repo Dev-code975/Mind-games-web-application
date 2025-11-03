@@ -1,0 +1,924 @@
+/*
+1)improve Css code
+2)fix grid layouts
+3)some grid layouts are good but numbering is broken
+4)have to made easy, moderate and hard level for memory game in form of 4X4, 5X5, 6X6
+5)remove number pad in sudoku and let number filled thorough keyboard
+6)better scoring system for all games
+8)make mental health tips section moving on clicking so that it moves from right to left
+9)home page 
+*/
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --light-bg: #f8f9fa;
+    --dark-text: #2c3e50;
+    --light-text: #ffffff;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --border-radius: 15px;
+    --box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    --font-large: 1.8rem;
+    --font-medium: 1.4rem;
+    --font-small: 1.1rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+    line-height: 1.6;
+    padding: 20px;
+    font-size: var(--font-small);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 25px;
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 1.6rem;
+    font-weight: normal;
+}
+
+.game-selector {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.game-btn {
+    padding: 18px 35px;
+    font-size: var(--font-medium);
+    background-color: var(--secondary-color);
+    color: var(--light-text);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+}
+
+.game-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-3px);
+}
+
+.game-btn.active {
+    background-color: var(--accent-color);
+}
+
+.game-container {
+    display: none;
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 35px;
+    box-shadow: var(--box-shadow);
+}
+
+.game-container.active {
+    display: block;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.game-title {
+    font-size: 2.4rem;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.game-stats {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    background-color: var(--light-bg);
+    padding: 12px 18px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--font-medium);
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item i {
+    font-size: 1.4rem;
+}
+
+/* Sudoku Styles */
+.sudoku-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.sudoku-board {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    gap: 3px;
+    background-color: var(--primary-color);
+    border: 5px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    width: 100%;
+    max-width: 550px;
+    aspect-ratio: 1;
+}
+
+.sudoku-cell {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sudoku-cell:hover {
+    background-color: #e3f2fd;
+}
+
+.sudoku-cell.selected {
+    background-color: #bbdefb;
+}
+
+.sudoku-cell.fixed {
+    background-color: #e0e0e0;
+    color: var(--primary-color);
+    cursor: default;
+}
+
+.sudoku-cell.fixed:hover {
+    background-color: #e0e0e0;
+}
+
+.sudoku-cell.error {
+    background-color: #ffcdd2;
+    color: var(--accent-color);
+}
+
+.sudoku-cell:nth-child(3n):not(:nth-child(9n)) {
+    border-right: 3px solid var(--primary-color);
+}
+
+.sudoku-cell:nth-child(n+19):nth-child(-n+27),
+.sudoku-cell:nth-child(n+46):nth-child(-n+54) {
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.sudoku-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 550px;
+}
+
+.control-btn {
+    padding: 14px 22px;
+    font-size: var(--font-medium);
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 140px;
+    font-weight: 600;
+}
+
+.control-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.control-btn.danger {
+    background-color: var(--accent-color);
+}
+
+.control-btn.danger:hover {
+    background-color: #c0392b;
+}
+
+.control-btn.success {
+    background-color: var(--success-color);
+}
+
+.control-btn.success:hover {
+    background-color: #27ae60;
+}
+
+.number-pad {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 550px;
+}
+
+.number-btn {
+    padding: 18px;
+    font-size: var(--font-large);
+    background-color: var(--light-bg);
+    border: 3px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: bold;
+}
+
+.number-btn:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.number-btn.clear {
+    grid-column: span 2;
+    background-color: var(--warning-color);
+    color: white;
+    border-color: var(--warning-color);
+}
+
+.number-btn.clear:hover {
+    background-color: #e67e22;
+}
+
+.difficulty-selector {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.difficulty-btn {
+    padding: 10px 20px;
+    font-size: var(--font-small);
+    background-color: var(--light-bg);
+    border: 3px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+}
+
+.difficulty-btn.active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+/* Crossword Styles */
+.crossword-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 35px;
+}
+
+.crossword-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 35px;
+    width: 100%;
+}
+
+.crossword-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 45px);
+    grid-template-rows: repeat(10, 45px);
+    gap: 2px;
+    background-color: var(--primary-color);
+    border: 4px solid var(--primary-color);
+    border-radius: var(--border-radius);
+}
+
+.crossword-cell {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+}
+
+.crossword-cell.black {
+    background-color: var(--primary-color);
+    cursor: default;
+}
+
+.crossword-cell.active {
+    background-color: #bbdefb;
+}
+
+.crossword-cell.correct {
+    background-color: #c8e6c9;
+}
+
+.crossword-cell .number {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    font-size: 0.8rem;
+    color: var(--dark-text);
+    font-weight: bold;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.crossword-cell .cell-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    outline: none;
+}
+
+.crossword-clues {
+    flex: 1;
+    min-width: 280px;
+    max-width: 420px;
+}
+
+.clues-section {
+    margin-bottom: 25px;
+}
+
+.clues-title {
+    font-size: var(--font-medium);
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+}
+
+.clue-list {
+    list-style-type: none;
+}
+
+.clue-item {
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background-color: var(--light-bg);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: var(--font-small);
+    font-weight: 500;
+}
+
+.clue-item:hover {
+    background-color: #e3f2fd;
+}
+
+.clue-item.active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.crossword-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 550px;
+}
+
+/* Memory Game Styles */
+#memory-game {
+    padding: 20px;
+}
+
+.memory-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.memory-grid {
+    display: grid;
+    gap: 12px;
+    margin: 20px auto;
+    width: min(90vw, 600px);
+    aspect-ratio: 1;
+}
+
+.memory-grid[data-difficulty="easy"] {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}
+
+.memory-grid[data-difficulty="medium"] {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    width: min(90vw, 650px);
+}
+
+.memory-grid[data-difficulty="hard"] {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    width: min(90vw, 700px);
+}
+
+.difficulty-selector {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.difficulty-btn {
+    padding: 8px 16px;
+    border: 2px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.difficulty-btn:hover {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.difficulty-btn.active {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.memory-grid {
+    display: grid;
+    width: 100%;
+    max-width: 800px;
+    gap: 10px;
+    margin: 0 auto;
+    padding: 15px;
+    aspect-ratio: 1;
+}
+
+/* Grid layouts for different difficulties */
+.memory-grid[data-difficulty="easy"] {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}
+
+.memory-grid[data-difficulty="medium"] {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+}
+
+.memory-grid[data-difficulty="hard"] {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+}
+
+.memory-grid[data-difficulty="easy"] {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 500px;
+}
+
+.memory-grid[data-difficulty="medium"] {
+    grid-template-columns: repeat(5, 1fr);
+    max-width: 600px;
+}
+
+.memory-grid[data-difficulty="hard"] {
+    grid-template-columns: repeat(6, 1fr);
+    max-width: 700px;
+}
+
+.memory-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    perspective: 1000px;
+}
+
+.memory-card:hover {
+    transform: scale(1.05);
+}
+
+.memory-card.flipped {
+    transform: rotateY(180deg);
+}
+
+.memory-card.matched {
+    cursor: default;
+}
+
+.memory-card.matched .memory-card-back {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.memory-card.blank {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Grid layouts for different difficulties */
+.memory-grid[data-difficulty="easy"] {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 500px;
+}
+
+.memory-grid[data-difficulty="medium"] {
+    grid-template-columns: repeat(5, 1fr);
+    max-width: 600px;
+}
+
+.memory-grid[data-difficulty="hard"] {
+    grid-template-columns: repeat(6, 1fr);
+    max-width: 700px;
+}
+
+.memory-card-front,
+.memory-card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.memory-card-front {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.memory-card-front i {
+    font-size: min(4vw, 2rem);
+}
+
+.memory-card-back {
+    background-color: white;
+    transform: rotateY(180deg);
+    font-size: min(5vw, 2.5rem);
+}
+
+.memory-controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.control-btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-btn i {
+    font-size: 1.2rem;
+}
+
+.difficulty-selector {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.difficulty-btn {
+    padding: 10px 20px;
+    border: 2px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: var(--font-small);
+    font-weight: 600;
+}
+
+.difficulty-btn:hover {
+    background: var(--secondary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.difficulty-btn.active {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.memory-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 550px;
+    margin-top: 20px;
+}
+
+.sudoku-library {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.library-section {
+    background-color: var(--light-bg);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--box-shadow);
+}
+
+.section-title {
+    font-size: var(--font-medium);
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--secondary-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.number-pad {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.number-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.number-btn {
+    flex: 1;
+    padding: 18px;
+    font-size: var(--font-large);
+    background-color: white;
+    border: 3px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    min-width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.number-btn:hover {
+    background-color: var(--secondary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.number-btn.clear {
+    background-color: var(--warning-color);
+    color: white;
+    border-color: var(--warning-color);
+    width: 100%;
+    gap: 10px;
+    font-size: var(--font-medium);
+}
+
+.number-btn.clear:hover {
+    background-color: #e67e22;
+}
+
+.sudoku-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.control-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: var(--font-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.mental-health-tips {
+    margin-top: 40px;
+    background-color: #e8f4fc;
+    border-left: 6px solid var(--secondary-color);
+    padding: 25px;
+    border-radius: var(--border-radius);
+}
+
+.mental-health-tips h3 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+}
+
+.tips-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.tip-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s ease;
+}
+
+.tip-card:hover {
+    transform: translateY(-5px);
+}
+
+.tip-card h4 {
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    font-size: var(--font-medium);
+    font-weight: 600;
+}
+
+.tip-card p {
+    font-size: var(--font-small);
+    line-height: 1.6;
+}
+
+.message {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    padding: 20px 30px;
+    background-color: var(--success-color);
+    color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    font-size: var(--font-medium);
+    z-index: 1000;
+    transform: translateX(150%);
+    transition: transform 0.4s ease;
+    font-weight: 600;
+}
+
+.message.show {
+    transform: translateX(0);
+}
+
+.message.error {
+    background-color: var(--accent-color);
+}
+
+.pause-btn {
+    background-color: var(--warning-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: 10px;
+    transition: all 0.2s ease;
+}
+
+.pause-btn:hover {
+    background-color: #e67e22;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.4rem;
+    }
+
+    .subtitle {
+        font-size: 1.4rem;
+    }
+
+    .game-btn {
+        padding: 14px 25px;
+        font-size: var(--font-small);
+    }
+
+    .sudoku-cell {
+        font-size: 1.8rem;
+    }
+
+    .control-btn {
+        padding: 12px 18px;
+        font-size: var(--font-small);
+        min-width: 120px;
+    }
+
+    .number-btn {
+        padding: 15px;
+        font-size: var(--font-medium);
+    }
+
+    .crossword-grid {
+        grid-template-columns: repeat(10, 40px);
+        grid-template-rows: repeat(10, 40px);
+    }
+
+    .crossword-cell {
+        font-size: 1.5rem;
+    }
+
+    .memory-grid {
+        grid-template-columns: repeat(4, 80px);
+        grid-template-rows: repeat(4, 80px);
+        gap: 12px;
+    }
+
+    .memory-card {
+        font-size: 2.8rem;
+    }
+}

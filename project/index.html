@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Games for Seniors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="project.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mind Games for Seniors</h1>
+            <p class="subtitle">Keep your mind sharp with fun games!</p>
+        </header>
+        <div class="game-selector">
+            <button class="game-btn active" data-game="sudoku">
+                <i class="fas fa-th"></i> Sudoku
+            </button>
+            <button class="game-btn" data-game="crossword">
+                <i class="fas fa-font"></i> Crossword
+            </button>
+            <button class="game-btn" data-game="memory">
+                <i class="fas fa-brain"></i> Memory Pairs
+            </button>
+            <button class="game-btn" data-game="mental-health-tips">
+                <i class="fas fa-heart"></i> Mental Health Tips
+            </button>
+        </div>
+        <div id="sudoku-game" class="game-container active">
+            <div class="game-header">
+                <h2 class="game-title">Sudoku Puzzle</h2>
+                <div class="game-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i> <span id="sudoku-timer">00:00</span>
+                        <button class="pause-btn" id="pause-sudoku"><i class="fas fa-pause"></i></button>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-star"></i> Score: <span id="score">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-lightbulb"></i> Hints: <span id="hints">3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="difficulty-selector">
+                <button class="difficulty-btn active" data-level="easy">Easy</button>
+                <button class="difficulty-btn" data-level="medium">Medium</button>
+                <button class="difficulty-btn" data-level="hard">Hard</button>
+            </div>
+            <div class="sudoku-container">
+                <div class="sudoku-board" id="sudoku-board"></div>
+                
+                <div class="sudoku-library">
+                    <div class="library-section controls">
+                        <h3 class="section-title"><i class="fas fa-cog"></i> Game Controls</h3>
+                        <div class="sudoku-controls">
+                            <button class="control-btn" id="new-game-btn">
+                                <i class="fas fa-redo"></i> New Game
+                            </button>
+                            <button class="control-btn success" id="check-btn">
+                                <i class="fas fa-check"></i> Check Solution
+                            </button>
+                            <button class="control-btn danger" id="hint-btn">
+                                <i class="fas fa-lightbulb"></i> Get Hint
+                            </button>
+                        </div>
+                    </div>
+                    <div class="library-section numbers">
+                        <h3 class="section-title"><i class="fas fa-keyboard"></i> Number Pad</h3>
+                        <div class="number-pad">
+                            <div class="number-row">
+                                <button class="number-btn" data-number="1">1</button>
+                                <button class="number-btn" data-number="2">2</button>
+                                <button class="number-btn" data-number="3">3</button>
+                            </div>
+                            <div class="number-row">
+                                <button class="number-btn" data-number="4">4</button>
+                                <button class="number-btn" data-number="5">5</button>
+                                <button class="number-btn" data-number="6">6</button>
+                            </div>
+                            <div class="number-row">
+                                <button class="number-btn" data-number="7">7</button>
+                                <button class="number-btn" data-number="8">8</button>
+                                <button class="number-btn" data-number="9">9</button>
+                            </div>
+                            <div class="number-row">
+                                <button class="number-btn clear" data-number="0">
+                                    <i class="fas fa-eraser"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tips-container">
+                    <div class="tip-card">
+                        <h4>Stay Socially Connected</h4>
+                        <p>Regular social interaction can help prevent depression and cognitive decline. Join clubs or volunteer in your community.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Physical Activity</h4>
+                        <p>Even light exercise like walking can improve brain function and mood. Aim for 30 minutes of activity most days.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Brain Games</h4>
+                        <p>Puzzles and games like Sudoku help maintain cognitive abilities and memory. Challenge yourself regularly!</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Healthy Diet</h4>
+                        <p>A diet rich in fruits, vegetables, and omega-3 fatty acids supports brain health. Stay hydrated and limit processed foods.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Quality Sleep</h4>
+                        <p>Good sleep is essential for memory consolidation. Aim for 7-8 hours of quality sleep each night.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Learn Something New</h4>
+                        <p>Learning new skills or hobbies creates new neural pathways. Try a musical instrument or a new language.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="crossword-game" class="game-container">
+            <div class="game-header">
+                <h2 class="game-title">Crossword Puzzle</h2>
+                <div class="game-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i> <span id="crossword-timer">00:00</span>
+                        <button class="pause-btn" id="pause-crossword"><i class="fas fa-pause"></i></button>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-star"></i> Score: <span id="crossword-score">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="crossword-container">
+                <div class="crossword-library">
+                    <div class="library-section puzzle">
+                        <h3 class="section-title"><i class="fas fa-th"></i> Puzzle Grid</h3>
+                        <div class="crossword-grid" id="crossword-grid"></div>
+                    </div>
+
+                    <div class="library-section clues">
+                        <h3 class="section-title"><i class="fas fa-lightbulb"></i> Puzzle Clues</h3>
+                        <div class="crossword-clues">
+                            <div class="clues-section">
+                                <h4 class="clues-title"><i class="fas fa-arrows-alt-h"></i> Across</h4>
+                                <ul class="clue-list" id="across-clues"></ul>
+                            </div>
+                            <div class="clues-section">
+                                <h4 class="clues-title"><i class="fas fa-arrows-alt-v"></i> Down</h4>
+                                <ul class="clue-list" id="down-clues"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="library-section controls">
+                        <h3 class="section-title"><i class="fas fa-cog"></i> Game Controls</h3>
+                        <div class="crossword-controls">
+                            <button class="control-btn" id="new-crossword-btn">
+                                <i class="fas fa-redo"></i> New Puzzle
+                            </button>
+                            <button class="control-btn success" id="check-crossword-btn">
+                                <i class="fas fa-check"></i> Check Answers
+                            </button>
+                            <button class="control-btn danger" id="reveal-crossword-btn">
+                                <i class="fas fa-eye"></i> Reveal Answer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tips-container">
+                    <div class="tip-card">
+                        <h4>Stay Socially Connected</h4>
+                        <p>Regular social interaction can help prevent depression and cognitive decline. Join clubs or volunteer in your community.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Physical Activity</h4>
+                        <p>Even light exercise like walking can improve brain function and mood. Aim for 30 minutes of activity most days.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Brain Games</h4>
+                        <p>Puzzles and games like Sudoku help maintain cognitive abilities and memory. Challenge yourself regularly!</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Healthy Diet</h4>
+                        <p>A diet rich in fruits, vegetables, and omega-3 fatty acids supports brain health. Stay hydrated and limit processed foods.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Quality Sleep</h4>
+                        <p>Good sleep is essential for memory consolidation. Aim for 7-8 hours of quality sleep each night.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Learn Something New</h4>
+                        <p>Learning new skills or hobbies creates new neural pathways. Try a musical instrument or a new language.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="memory-game" class="game-container">
+            <div class="game-header">
+                <h2 class="game-title">Memory Pairs</h2>
+                <div class="game-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i> <span id="memory-timer">00:00</span>
+                        <button class="pause-btn" id="pause-memory"><i class="fas fa-pause"></i></button>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-star"></i> Score: <span id="memory-score">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-hand-pointer"></i> Moves: <span id="memory-moves">0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="difficulty-selector">
+                <button class="difficulty-btn active" data-level="easy">Easy (4×4)</button>
+                <button class="difficulty-btn" data-level="medium">Medium (5×4)</button>
+                <button class="difficulty-btn" data-level="hard">Hard (6×4)</button>
+            </div>
+            <div class="memory-container">
+                <div class="memory-grid" id="memory-grid"></div>
+                
+                <div class="memory-controls">
+                    <button class="control-btn" id="new-memory-btn">
+                        <i class="fas fa-redo"></i> New Game
+                    </button>
+                    <button class="control-btn success" id="hint-memory-btn">
+                        <i class="fas fa-lightbulb"></i> Show All (3s)
+                    </button>
+                </div>
+                <div class="tips-container">
+                    <div class="tip-card">
+                        <h4>Stay Socially Connected</h4>
+                        <p>Regular social interaction can help prevent depression and cognitive decline. Join clubs or volunteer in your community.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Physical Activity</h4>
+                        <p>Even light exercise like walking can improve brain function and mood. Aim for 30 minutes of activity most days.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Brain Games</h4>
+                        <p>Puzzles and games like Sudoku help maintain cognitive abilities and memory. Challenge yourself regularly!</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Healthy Diet</h4>
+                        <p>A diet rich in fruits, vegetables, and omega-3 fatty acids supports brain health. Stay hydrated and limit processed foods.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Quality Sleep</h4>
+                        <p>Good sleep is essential for memory consolidation. Aim for 7-8 hours of quality sleep each night.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4>Learn Something New</h4>
+                        <p>Learning new skills or hobbies creates new neural pathways. Try a musical instrument or a new language.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mental-health-tips" style="display: none;">
+            <h3><i class="fas fa-heart"></i> Mental Health Tips for Seniors</h3>
+            <div class="tips-container" id="tips-main">
+                <div class="tip-card">
+                    <h4>Stay Socially Connected</h4>
+                    <p>Regular social interaction can help prevent depression and cognitive decline. Join clubs or volunteer in your community.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>Physical Activity</h4>
+                    <p>Even light exercise like walking can improve brain function and mood. Aim for 30 minutes of activity most days.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>Brain Games</h4>
+                    <p>Puzzles and games like Sudoku help maintain cognitive abilities and memory. Challenge yourself regularly!</p>
+                </div>
+                <div class="tip-card">
+                    <h4>Healthy Diet</h4>
+                    <p>A diet rich in fruits, vegetables, and omega-3 fatty acids supports brain health. Stay hydrated and limit processed foods.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>Quality Sleep</h4>
+                    <p>Good sleep is essential for memory consolidation. Aim for 7-8 hours of quality sleep each night.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>Learn Something New</h4>
+                    <p>Learning new skills or hobbies creates new neural pathways. Try a musical instrument or a new language.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Practice Mindfulness</h4>
+                    <p>Daily meditation or mindfulness exercises can reduce stress and improve mental clarity.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Maintain Routine</h4>
+                    <p>A consistent daily routine helps maintain mental stability and reduces anxiety. Structure your day with regular activities.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Stay Hydrated</h4>
+                    <p>Proper hydration is crucial for brain function. Drink at least 8 glasses of water daily.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Nature Time</h4>
+                    <p>Spending time in nature can reduce stress and improve mood. Take regular walks in parks or gardens.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Creative Expression</h4>
+                    <p>Engage in creative activities like painting, writing, or crafts to stimulate different areas of your brain.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Regular Check-ups</h4>
+                    <p>Keep up with medical appointments and discuss any mental health concerns with your healthcare provider.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Social Media Balance</h4>
+                    <p>Use social media mindfully to stay connected, but limit screen time to avoid digital stress.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Gratitude Practice</h4>
+                    <p>Keep a gratitude journal or share daily appreciations to boost positive thinking and mental well-being.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Music Therapy</h4>
+                    <p>Listen to or make music regularly. Music can improve mood, reduce anxiety, and stimulate memory.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Pet Interaction</h4>
+                    <p>Spending time with pets can reduce stress and provide emotional support. Consider pet therapy or ownership.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Stress Management</h4>
+                    <p>Develop healthy coping strategies for stress, such as deep breathing exercises or gentle yoga.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Memory Exercises</h4>
+                    <p>Practice memory techniques like visualization and association to keep your mind sharp.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Laugh Often</h4>
+                    <p>Engage in activities that make you laugh. Humor is a powerful tool for maintaining mental health.</p>
+                </div>
+                <div class="tip-card game-tips">
+                    <h4>Community Engagement</h4>
+                    <p>Participate in community events or volunteer work to maintain social connections and sense of purpose.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="message" class="message"></div>
+    <script src="project.js"></script>
+</body>
+</html>
